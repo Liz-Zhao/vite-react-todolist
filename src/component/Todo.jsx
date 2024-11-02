@@ -1,91 +1,46 @@
-import { useEffect, useRef, useState } from "react";
-import DelIcon from "../assets/del.svg";
-import checkIcon from "../assets/check.svg";
+import { useContext, useState } from "react";
 import DoneIcon from "../assets/checked.svg";
-import EditIcon from "../assets/edit.svg";
+import EditTodo from "./EditTodo";
+import UnDoneTodo from "./UnDoneTodo";
+import DelIcon from "../assets/del.svg";
+import { TodoContext } from "../context/TodoContext";
 
-const Todo = ({ todo, handleToggleItem, handleRemoveItem,handleUpdateItem }) => {
-  const [toolkitState, setToolkitState] = useState(false);
-  const contextMenu = useRef(null);
+const Todo = ({ todo }) => {
   const [edited, setEdited] = useState(false);
-  const [editvalue, setEditValue] = useState(todo.title)
+  const { dispatch } = useContext(TodoContext);
 
-  const handleEditItem = () => {
-    handleUpdateItem(todo.id,editvalue)
-    setEdited(false);
+  const handleToggleItem = () => {
+    dispatch({
+      type: "toggled",
+      id: todo.id,
+    });
   };
 
-  const handleRightClick = (e) => {
-    e.preventDefault();
-    setToolkitState(true);
-    console.log(e.clientX, e.clientY);
+  const handleRemoveItem = () => {
+    dispatch({
+      type: "removed",
+      id: todo.id,
+    });
   };
-
-  const handleClickOutside = (e) => {
-    if (contextMenu.current && !contextMenu.current.contains(e.target)) {
-      setToolkitState(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
 
   return (
     <div className="todo-item">
       {todo.isChecked ? (
         <>
-          <div className="checked" onClick={() => handleToggleItem(todo.id)}>
+          <div className="checked" onClick={handleToggleItem}>
             <img src={DoneIcon} alt="done" />
           </div>
           <div className="item-title-checked">{todo.title}</div>
-          <div
-            className="btn btn-del btn-s"
-            onClick={() => handleRemoveItem(todo.id)}
-          >
+          <div className="btn btn-del btn-s" onClick={handleRemoveItem}>
             <img src={DelIcon} alt="del" />
           </div>
         </>
       ) : (
         <>
           {edited ? (
-            <div className="edit-box">
-              <input type="text" name="edit" id="edit" value={editvalue} onChange={(e)=>setEditValue(e.target.value)} />
-              <div className="btn btn-del" onClick={()=> setEdited(false)}>
-                <img src={DelIcon} alt="del" />
-              </div>
-              <div className="btn btn-check" onClick={()=> handleEditItem()}>
-                <img src={checkIcon} alt="check" />
-              </div>
-            </div>
+            <EditTodo todo={todo} setEdited={setEdited} />
           ) : (
-            <>
-              <div onContextMenu={handleRightClick} className="todo-item-un">
-                <div
-                  className="uncheck"
-                  onClick={() => handleToggleItem(todo.id)}
-                ></div>
-
-                <div>{todo.title}</div>
-              </div>
-
-              {toolkitState && (
-                <div className="toolkit" ref={contextMenu}>
-                  <div
-                    className="btn btn-del"
-                    onClick={() => handleRemoveItem(todo.id)}
-                  >
-                    <img src={DelIcon} alt="del" />
-                  </div>
-                  <div className="btn btn-edit" onClick={()=> setEdited(true)}>
-                    <img src={EditIcon} alt="edit" />
-                  </div>
-                </div>
-              )}
-            </>
+            <UnDoneTodo todo={todo} setEdited={setEdited} />
           )}
         </>
       )}
