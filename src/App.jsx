@@ -2,6 +2,8 @@ import { useReducer } from "react";
 import Todo from "./component/Todo";
 import AddTodo from "./component/AddTodo";
 import { TodoContext, todoReducer } from "./context/TodoContext";
+import Modal from "./component/Modal";
+import { ModalProvider } from "./context/ModalContext";
 
 const defaultData = [
   { id: 0, title: "Apple", isChecked: false },
@@ -18,18 +20,21 @@ function App() {
 
   return (
     <>
-      <TodoContext.Provider value={{ todoList, dispatch }}>
-        <div className="container">
-          <h2 className="title">今日代办</h2>
-          <section className="todo-box">
-            {todoList.map((item) => (
-              <Todo key={item.id} todo={item} />
-            ))}
-          </section>
+      <ModalProvider>
+        <TodoContext.Provider value={{ todoList, dispatch }}>
+          <div className="container">
+            <h2 className="title">今日代办</h2>
+            <section className="todo-box">
+              {todoList.map((item) => (
+                <Todo key={item.id} todo={item} />
+              ))}
+            </section>
 
-          <AddTodo />
-        </div>
-      </TodoContext.Provider>
+            <AddTodo />
+          </div>
+          <Modal />
+        </TodoContext.Provider>
+      </ModalProvider>
     </>
   );
 }

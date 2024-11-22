@@ -4,10 +4,12 @@ import EditTodo from "./EditTodo";
 import UnDoneTodo from "./UnDoneTodo";
 import DelIcon from "../assets/del.svg";
 import { TodoContext } from "../context/TodoContext";
+import { useModal } from "../context/ModalContext";
 
 const Todo = ({ todo }) => {
   const [edited, setEdited] = useState(false);
   const { dispatch } = useContext(TodoContext);
+  const {dispatch:modalDispatch } = useModal();
 
   const handleToggleItem = () => {
     dispatch({
@@ -16,11 +18,22 @@ const Todo = ({ todo }) => {
     });
   };
 
+  const handleShowModal =()=>{
+    modalDispatch({
+      type:"SHOW_MODAL",
+      payload:{
+        onConfirm: handleRemoveItem
+      }
+    })
+  }
+
   const handleRemoveItem = () => {
+
     dispatch({
       type: "removed",
       id: todo.id,
     });
+
   };
 
   return (
@@ -31,7 +44,7 @@ const Todo = ({ todo }) => {
             <img src={DoneIcon} alt="done" />
           </div>
           <div className="item-title-checked">{todo.title}</div>
-          <div className="btn btn-del btn-s" onClick={handleRemoveItem}>
+          <div className="btn btn-del btn-s" onClick={handleShowModal}>
             <img src={DelIcon} alt="del" />
           </div>
         </>

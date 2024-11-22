@@ -4,8 +4,13 @@
   box-sizing: border-box;
 }
 
-input {
+input{
   outline: none;
+}
+
+button{
+  border: none;
+  cursor: pointer;
 }
 
 #root {
@@ -164,4 +169,36 @@ input {
   border: none;
   width: 90%;
   padding: 5px 5px;
+}
+
+/* 弹窗 */
+.m-container{
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.m-box{
+  width: 220px;
+  background-color: #fff;
+}
+.m-content{
+  text-align: center;
+  padding: 20px;
+}
+.m-bottom{
+  width: 100%;
+}
+.m-btn{
+  width: 50%;
+  padding: 8px;
+
+}
+.m-btn:hover{
+  background-color: #cfcfcf;
 }
