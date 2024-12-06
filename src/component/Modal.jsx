@@ -1,18 +1,20 @@
-import { useModal } from "../context/ModalContext";
+import { useDispatch, useSelector } from "react-redux";
+import { hideModal } from "../actions/modalAction";
 
 const Modal = () => {
-  const { state, dispatch } = useModal();
+  const modal = useSelector((state) => state.modal);
+  const dispatch = useDispatch(); 
 
-  if (!state.visible) return null;
+  if (!modal.visible) return null;
 
   const handleConfirm = () => {
-    if (state.onConfirm) state.onConfirm();
-    dispatch({ type: "HIDE_MODAL" });
+    if (modal.onConfirm) modal.onConfirm();
+    dispatch(hideModal())
   };
 
   const handleCancel = () => {
-    if (state.onCancel) state.onCancel();
-    dispatch({ type: "HIDE_MODAL" });
+    if (modal.onCancel) modal.onCancel();
+    dispatch(hideModal());
   };
 
   return (

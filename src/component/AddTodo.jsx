@@ -1,26 +1,23 @@
-import { useContext, useState } from "react";
+import {useState } from "react";
 import AddIcon from "../assets/add.svg";
-import { TodoContext } from "../context/TodoContext";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../actions/todoAction";
 
 const AddTodo = () => {
   const [title, setTitle] = useState("");
-  const { dispatch} = useContext(TodoContext);
+
+  const dispatch = useDispatch();
 
   const handleAdd = () => {
-    dispatch({
-        type: "added",
-        value: title,
-      })
+    dispatch(addTodo(title))
     
     setTitle("");
   };
 
   const handleKeyDown = (e) => {
     if (e.keyCode === 13) {
-      dispatch({
-        type: "added",
-        value: title,
-      });
+      dispatch(addTodo(title))
+
       setTitle("");
     }
   };

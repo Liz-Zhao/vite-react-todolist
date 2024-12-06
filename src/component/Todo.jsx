@@ -1,38 +1,26 @@
-import { useContext, useState } from "react";
+import {useState } from "react";
 import DoneIcon from "../assets/checked.svg";
 import EditTodo from "./EditTodo";
 import UnDoneTodo from "./UnDoneTodo";
 import DelIcon from "../assets/del.svg";
-import { TodoContext } from "../context/TodoContext";
-import { useModal } from "../context/ModalContext";
+import { useDispatch } from "react-redux";
+import { removeTodo, toggleTodo } from "../actions/todoAction";
+import { showModal } from "../actions/modalAction";
 
 const Todo = ({ todo }) => {
   const [edited, setEdited] = useState(false);
-  const { dispatch } = useContext(TodoContext);
-  const {dispatch:modalDispatch } = useModal();
+  const dispatch = useDispatch();
 
   const handleToggleItem = () => {
-    dispatch({
-      type: "toggled",
-      id: todo.id,
-    });
+    dispatch(toggleTodo(todo.id))
   };
 
   const handleShowModal =()=>{
-    modalDispatch({
-      type:"SHOW_MODAL",
-      payload:{
-        onConfirm: handleRemoveItem
-      }
-    })
+    dispatch(showModal(handleRemoveItem))
   }
 
   const handleRemoveItem = () => {
-
-    dispatch({
-      type: "removed",
-      id: todo.id,
-    });
+    dispatch(removeTodo(todo.id))
 
   };
 

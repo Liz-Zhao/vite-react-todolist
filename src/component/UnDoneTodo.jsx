@@ -1,28 +1,29 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import EditIcon from "../assets/edit.svg";
 import DelIcon from "../assets/del.svg";
-import { TodoContext } from "../context/TodoContext";
+import { useDispatch } from "react-redux";
+import { removeTodo, toggleTodo } from "../actions/todoAction";
+import { showModal } from "../actions/modalAction";
 
 
 const UnDoneTodo = ({todo,setEdited}) => {
   const [toolkitState, setToolkitState] = useState(false);
   const contextMenu = useRef(null);
-
-  const {dispatch} = useContext(TodoContext)
+  const dispatch = useDispatch();
+  // const {dispatch} = useContext(TodoContext)
 
   const handleToggleItem = ()=>{
-    dispatch({
-      type:"toggled",
-      id: todo.id
-    })
+    dispatch(toggleTodo(todo.id))
   }
 
-  const handleRemoveItem=()=>{
-    dispatch({
-      type:"removed",
-      id: todo.id
-    })
+  const handleShowModal =()=>{
+    dispatch(showModal(handleRemoveItem))
   }
+
+  const handleRemoveItem = () => {
+    dispatch(removeTodo(todo.id))
+
+  };
 
 
   const handleRightClick = (e) => {
@@ -50,7 +51,7 @@ const UnDoneTodo = ({todo,setEdited}) => {
       <div onContextMenu={handleRightClick} className="todo-item-un">
         <div
           className="uncheck"
-          onClick={() => handleToggleItem(todo.id)}
+          onClick={() => handleToggleItem()}
         ></div>
 
         <div>{todo.title}</div>
@@ -60,7 +61,7 @@ const UnDoneTodo = ({todo,setEdited}) => {
         <div className="toolkit" ref={contextMenu}>
           <div
             className="btn btn-del"
-            onClick={() => handleRemoveItem(todo.id)}
+            onClick={() => handleShowModal()}
           >
             <img src={DelIcon} alt="del" />
           </div>

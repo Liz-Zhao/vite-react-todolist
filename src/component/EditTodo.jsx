@@ -1,18 +1,15 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import DelIcon from "../assets/del.svg";
 import checkIcon from "../assets/check.svg";
-import { TodoContext } from "../context/TodoContext";
+import { useDispatch } from "react-redux";
+import { updateTodo } from "../actions/todoAction";
 
 const EditTodo = ({ todo, setEdited }) => {
   const [editvalue, setEditValue] = useState(todo.title);
-  const { dispatch } = useContext(TodoContext);
+  const dispatch = useDispatch();
 
   const handleEditItem = () => {
-    dispatch({
-      type: "updated",
-      id: todo.id,
-      value: editvalue,
-    });
+    dispatch(updateTodo(todo.id, editvalue))
     setEdited(false);
   };
 
