@@ -202,3 +202,14 @@ button{
 .m-btn:hover{
   background-color: #cfcfcf;
 }
+.search-input{
+  width: 100%;
+  height: 40px;
+  border-radius: 40px;
+  border: 1px solid #eeeeee;
+  padding: 0 20px;
+  margin-bottom: 10px;
+}
+.search-input:focus{
+  border: 1px solid #4a4a4a;
+}

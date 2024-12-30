@@ -3,21 +3,17 @@ import {
   REMOVE_TODO,
   UPDATE_TODO,
   TOGGLE_TODO,
+  SEARCH_TODO
 } from "../actions/todoAction";
 import { v4 as uuidv4 } from "uuid";
 
 // const defaultData = [
 //   { id: 0, title: "Apple", isChecked: false },
-//   { id: 1, title: "Banana", isChecked: false },
-//   { id: 2, title: "review", isChecked: true },
-//   { id: 3, title: "Softpedia Folder", isChecked: false },
-//   { id: 4, title: "Read this", isChecked: true },
-//   { id: 5, title: "Mini - review", isChecked: false },
-//   { id: 6, title: "Milk eggf", isChecked: false },
 // ];
 
 const initialState = {
   todos: [],
+  searchTitle: "",
 };
 
 const todoReducer = (state = initialState, action) => {
@@ -52,6 +48,11 @@ const todoReducer = (state = initialState, action) => {
             ? { ...item, isChecked: !item.isChecked }
             : item
         ),
+      };
+    case SEARCH_TODO:
+      return {
+        ...state,
+        searchTitle: action.payload.searchTitle,
       };
     default:
         return state

@@ -10,7 +10,6 @@ const UnDoneTodo = ({todo,setEdited}) => {
   const [toolkitState, setToolkitState] = useState(false);
   const contextMenu = useRef(null);
   const dispatch = useDispatch();
-  // const {dispatch} = useContext(TodoContext)
 
   const handleToggleItem = ()=>{
     dispatch(toggleTodo(todo.id))
@@ -25,11 +24,9 @@ const UnDoneTodo = ({todo,setEdited}) => {
 
   };
 
-
   const handleRightClick = (e) => {
     e.preventDefault();
     setToolkitState(true);
-    // console.log(e.clientX, e.clientY);
   };
 
   const handleClickOutside = (e) => {

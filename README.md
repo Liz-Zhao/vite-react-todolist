@@ -13,5 +13,5 @@ Todolist基本功能：
 5. 增加删除操作Modal再确定的逻辑 241122
 
 # 截图
-![截图](./src/assets/pic1.png)
-![截图](./src/assets/pic2.png)
+![截图](./pics/home.png)
+![截图](./pics/delete.png)
